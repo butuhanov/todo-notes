@@ -4,5 +4,5 @@ from .models import Author
 
 class AuthorModelSerializer(HyperlinkedModelSerializer):
    class Meta:
-       model = Author
-       fields = '__all__'
+       model = Author  # сериализатор на основании неё будет создавать JSON-представление
+       fields = '__all__' # какие поля из модели будут отображаться в json. __all__ означает все поля.
