@@ -1,7 +1,8 @@
 import React from 'react'; // Импортируем React из библиотеки react
 import logo from './logo.svg'; //  svg-файл
 import './App.css'; // и файл со стилями.
-import AuthorList from './components/Author.js' // импортируем компонент AuthorList.
+import AuthorList from './components/Author.js'; // импортируем компонент AuthorList.
+import axios from 'axios';
 
 
 class App extends React.Component {  // Создадим класс App, наследуем его от React.Component.
@@ -14,6 +15,7 @@ class App extends React.Component {  // Создадим класс App, нас�
        }
    }
 
+/*
    componentDidMount() {  // метод componentDidMount будет вызываться при монтировании компонента на страницу.
                           // В нём создан массив из объектов авторов для проверки работы приложения.
                           // Далее эти данные мы будем получать с back-end.
@@ -36,6 +38,20 @@ class App extends React.Component {  // Создадим класс App, нас�
            }
        )
    }
+   */
+   componentDidMount() {   // Мы получаем объект response и его данные response.data.
+                           // Это и есть список авторов из API на back-end.
+                           // Далее меняем состояние объекта App и передаём полученные данные вместо заглушек.
+   axios.get('http://127.0.0.1:8000/api/authors')
+       .then(response => {
+           const authors = response.data
+               this.setState(
+               {
+                   'authors': authors
+               }
+           )
+       }).catch(error => console.log(error))
+}
 
 
 render () {
