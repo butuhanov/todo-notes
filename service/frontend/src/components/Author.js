@@ -11,10 +11,11 @@ const AuthorItem = ({author}) => {  // Это простой компонент 
                                     // что из всех props мы ожидаем получить author — объект автора,
                                     // и далее работать только с ним.
    return (             // Функция возвращает разметку компонента.
+                        // {author.first_name}. В неё мы помещаем данные из объекта author.
 
        <tr>
            <td>
-               {author.first_name}  // {author.first_name}. В неё мы помещаем данные из объекта author.
+               {author.first_name}
            </td>
            <td>
                {author.last_name}
@@ -29,6 +30,9 @@ const AuthorItem = ({author}) => {  // Это простой компонент 
 
 const AuthorList = ({authors}) => { // аuthors — это массив данных об авторах, который мы передадим в компонент.
 
+ // Используем функцию map,
+ // чтобы превратить каждого автора из массива
+ // в соответствующий компонент AuthorItem.
    return (
        <table>
            <th>
@@ -40,9 +44,7 @@ const AuthorList = ({authors}) => { // аuthors — это массив данн
            <th>
                Birthday year
            </th>
-           {authors.map((author) => <AuthorItem author={author} />)} // Используем функцию map,
-                                                                     // чтобы превратить каждого автора из массива
-                                                                     // в соответствующий компонент AuthorItem.
+           {authors.map((author) => <AuthorItem author={author} />)}
        </table>
    )
 }
