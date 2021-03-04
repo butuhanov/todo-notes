@@ -26,3 +26,26 @@ const AuthorItem = ({author}) => {  // Это простой компонент 
    )
 }
 
+
+const AuthorList = ({authors}) => { // аuthors — это массив данных об авторах, который мы передадим в компонент.
+
+   return (
+       <table>
+           <th>
+               First name
+           </th>
+           <th>
+               Last Name
+           </th>
+           <th>
+               Birthday year
+           </th>
+           {authors.map((author) => <AuthorItem author={author} />)} // Используем функцию map,
+                                                                     // чтобы превратить каждого автора из массива
+                                                                     // в соответствующий компонент AuthorItem.
+       </table>
+   )
+}
+
+export default AuthorList  // Экспортируем компонент для дальнейшего использования в других модулях.
+
