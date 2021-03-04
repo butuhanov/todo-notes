@@ -42,7 +42,7 @@ class App extends React.Component {  // Создадим класс App, нас�
    componentDidMount() {   // Мы получаем объект response и его данные response.data.
                            // Это и есть список авторов из API на back-end.
                            // Далее меняем состояние объекта App и передаём полученные данные вместо заглушек.
-   axios.get('http://127.0.0.1:8000/api/authors')
+   axios.get('http://127.0.0.1:8000/api/authors/')
        .then(response => {
            const authors = response.data
                this.setState(
