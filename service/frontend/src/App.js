@@ -1,6 +1,6 @@
+import React from 'react'; // Импортируем React из библиотеки react
 import logo from './logo.svg';
 import './App.css';
-import React from 'react'; // Импортируем React из библиотеки react
 import UserList from './components/User.js'; // импортируем компонент UserList.
 import axios from 'axios';
 
