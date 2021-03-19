@@ -77,6 +77,16 @@ class Command(BaseCommand):
       serializer.is_valid()
       author = serializer.save()
 
+      data = {'name': 'Грин', 'birthday_year': 'abc'}
+      serializer = AuthorSerializer(data=data)
+      print(serializer.is_valid())  # False
+
+      print(
+          serializer.errors)  # {'birthday_year': [ErrorDetail(string='A valid integer is required.', code='invalid')]}
+
+      # serializer.is_valid(raise_exception=True)
+
+
       # По умолчанию для обновления объекта нужно передать все поля сериализатора (name и birthday_year).
       # Если же мы хотим передать только несколько полей, а остальные оставить как есть,
       # то нужно использовать параметр partial=True.
