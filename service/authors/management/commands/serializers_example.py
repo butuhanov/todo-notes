@@ -63,6 +63,22 @@ class Command(BaseCommand):
              instance.birthday_year = validated_data.get('birthday_year', instance.birthday_year)
              return instance
 
+
+         # Как и в Django Forms, в Serializers можно добавить дополнительную валидацию по одному или нескольким полям.
+         #  Для добавления валидации по некоторому полю в serializer включается
+         #  метод validate_<имя поля> (validate_birthday_year).
+         #  Чтобы применить это к нескольким полям — метод validate.
+         def validate_birthday_year(self, value):
+             if value < 0:
+                 # Для генерации ошибки используется класс serializers.ValidationError.
+                 raise serializers.ValidationError('Год рождения не может быть отрицательным')
+             return value
+
+         def validate(self, attrs):
+             if attrs['name'] == 'Пушкин' and attrs['birthday_year'] != 1799:
+                 raise serializers.ValidationError('Неверный год рождения Пушкина')
+             return attrs
+
       # При передаче только словаря данных и вызова метода save будет вызван метод create.
       data = {'name': 'Грин', 'birthday_year': 1880}
       serializer = AuthorSerializer(data=data)
@@ -77,9 +93,20 @@ class Command(BaseCommand):
       serializer.is_valid()
       author = serializer.save()
 
-      data = {'name': 'Грин', 'birthday_year': 'abc'}
-      serializer = AuthorSerializer(data=data)
-      print(serializer.is_valid())  # False
+      # data = {'name': 'Грин', 'birthday_year': 'abc'}
+      # serializer = AuthorSerializer(data=data)
+      # print(serializer.is_valid())  # False
+
+      # Пример проверки валидации
+      # data = {'name': 'Пушкин', 'birthday_year': 1880}
+      # serializer = AuthorSerializer(author, data=data)
+      # serializer.is_valid()
+      # author = serializer.save()
+      #
+      # data = {'name': 'Александр', 'birthday_year': -10}
+      # serializer = AuthorSerializer(author, data=data)
+      # serializer.is_valid()
+      # author = serializer.save()
 
       print(
           serializer.errors)  # {'birthday_year': [ErrorDetail(string='A valid integer is required.', code='invalid')]}
