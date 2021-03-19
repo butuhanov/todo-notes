@@ -1,7 +1,7 @@
 from django.db import models
 from uuid import uuid4
 
-from service.users.models import User
+from users.models import User
 
 # Это проект, для которого записаны TO DO.
 # У него есть название, может быть ссылка на репозиторий и набор пользователей, которые работают с этим проектом.
