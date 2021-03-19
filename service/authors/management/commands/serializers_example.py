@@ -53,25 +53,33 @@ class Command(BaseCommand):
          name = serializers.CharField(max_length=128)
          birthday_year = serializers.IntegerField()
 
-
+         # В метод create передаётся validated_data — словарь валидных данных, а возвращается объект Author.
          def create(self, validated_data):
              return Author(**validated_data)
 
+         # В метод update тоже передаётся validated_data, и вместе с ним instance — объект, который мы хотим изменить.
          def update(self, instance, validated_data):
              instance.name = validated_data.get('name', instance.name)
              instance.birthday_year = validated_data.get('birthday_year', instance.birthday_year)
              return instance
 
+      # При передаче только словаря данных и вызова метода save будет вызван метод create.
       data = {'name': 'Грин', 'birthday_year': 1880}
       serializer = AuthorSerializer(data=data)
+      # Перед каждым сохранением объекта нужно вызывать метод is_valid serializer-а
+      # для проверки данных, иначе возникнет ошибка.
       serializer.is_valid()
       author = serializer.save()
 
+      # При передаче объекта author и словаря данных объект изменится и будет вызван метод update.
       data = {'name': 'Александр', 'birthday_year': 1880}
       serializer = AuthorSerializer(author, data=data)
       serializer.is_valid()
       author = serializer.save()
 
+      # По умолчанию для обновления объекта нужно передать все поля сериализатора (name и birthday_year).
+      # Если же мы хотим передать только несколько полей, а остальные оставить как есть,
+      # то нужно использовать параметр partial=True.
       data = {'birthday_year': 2000}
       serializer = AuthorSerializer(author, data=data, partial=True)
       serializer.is_valid()
