@@ -7,6 +7,7 @@ class Author(models.Model):
    last_name = models.CharField(max_length=64)
    birthday_year = models.PositiveIntegerField()
 
+# Метод str-модели Author возвращает имя автора.
    def __str__(self):
        return self.last_name
 

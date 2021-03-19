@@ -15,7 +15,7 @@ class Author:
 
 class Biography:
 
-   def __init__(self, text, author):
+   def __init__(self, text, author:Author):
        self.author = author
        self.text = text
 
@@ -29,6 +29,6 @@ class Book:
 
 class Article:
 
-   def __init__(self, name, author):
+   def __init__(self, name, author:Author):
        self.name = name
        self.author = author
