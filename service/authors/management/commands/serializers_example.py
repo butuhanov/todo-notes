@@ -84,8 +84,9 @@ class Command(BaseCommand):
       print(
           serializer.errors)  # {'birthday_year': [ErrorDetail(string='A valid integer is required.', code='invalid')]}
 
-      # serializer.is_valid(raise_exception=True)
-
+      # При невалидных данных возникнет ошибка, если вызвать метод is_valid и
+      # передать в него параметр raise_exception=True.
+      serializer.is_valid(raise_exception=True)
 
       # По умолчанию для обновления объекта нужно передать все поля сериализатора (name и birthday_year).
       # Если же мы хотим передать только несколько полей, а остальные оставить как есть,
