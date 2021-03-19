@@ -42,6 +42,31 @@ class AuthorSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=128)
     birthday_year = serializers.IntegerField()
 
+    # В метод create передаётся validated_data — словарь валидных данных, а возвращается объект Author.
+    def create(self, validated_data):
+        return Author(**validated_data)
+
+    # В метод update тоже передаётся validated_data, и вместе с ним instance — объект, который мы хотим изменить.
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.birthday_year = validated_data.get('birthday_year', instance.birthday_year)
+        return instance
+
+    # Как и в Django Forms, в Serializers можно добавить дополнительную валидацию по одному или нескольким полям.
+    #  Для добавления валидации по некоторому полю в serializer включается
+    #  метод validate_<имя поля> (validate_birthday_year).
+    #  Чтобы применить это к нескольким полям — метод validate.
+    def validate_birthday_year(self, value):
+        if value < 0:
+            # Для генерации ошибки используется класс serializers.ValidationError.
+            raise serializers.ValidationError('Год рождения не может быть отрицательным')
+        return value
+
+    def validate(self, attrs):
+        if attrs['name'] == 'Пушкин' and attrs['birthday_year'] != 1799:
+            raise serializers.ValidationError('Неверный год рождения Пушкина')
+        return attrs
+
 
 class BiographySerializer(serializers.Serializer):
     text = serializers.CharField(max_length=1024)
@@ -96,12 +121,60 @@ class Command(BaseCommand):
       print(serializer.data)
 
 
+      # При передаче только словаря данных и вызова метода save будет вызван метод create.
+      data = {'name': 'Грин', 'birthday_year': 1880}
+      serializer = AuthorSerializer(data=data)
+      # Перед каждым сохранением объекта нужно вызывать метод is_valid serializer-а
+      # для проверки данных, иначе возникнет ошибка.
+      serializer.is_valid()
+      author = serializer.save()
+      print(serializer.data)
+
+      # При передаче объекта author и словаря данных объект изменится и будет вызван метод update.
+      data = {'name': 'Александр', 'birthday_year': 1880}
+      serializer = AuthorSerializer(author, data=data)
+      serializer.is_valid()
+      author = serializer.save()
+      print(serializer.data)
+
+      # data = {'name': 'Грин', 'birthday_year': 'abc'}
+      # serializer = AuthorSerializer(data=data)
+      # print(serializer.is_valid())  # False
       # print(
-      #     serializer.errors)  # {'birthday_year': [ErrorDetail(string='A valid integer is required.', code='invalid')]}
+      #     serializer.errors)
+
+      # Пример проверки валидации
+      data = {'name': 'Пушкин', 'birthday_year': 1799}
+      serializer = AuthorSerializer(author, data=data)
+      serializer.is_valid()
+      author = serializer.save()
+      print(serializer.data)
+
+      data = {'name': 'Пушкин', 'birthday_year': 1800}
+      serializer = AuthorSerializer(author, data=data)
+      serializer.is_valid()
+      print('ошибки:', serializer.errors)
+      # author = serializer.save()
+
+      data = {'name': 'Пушкин', 'birthday_year': -100}
+      serializer = AuthorSerializer(author, data=data)
+      serializer.is_valid()
+      print('ошибки:', serializer.errors)
+      # author = serializer.save()
+
+
+      # data = {'name': 'Александр', 'birthday_year': -10}
+      # serializer = AuthorSerializer(author, data=data)
+      # serializer.is_valid()
+      # author = serializer.save()
+
+      print(
+          serializer.errors)  # {'birthday_year': [ErrorDetail(string='A valid integer is required.', code='invalid')]}
 
       # При невалидных данных возникнет ошибка, если вызвать метод is_valid и
       # передать в него параметр raise_exception=True.
-      # serializer.is_valid(raise_exception=True)
+      serializer.is_valid(raise_exception=True)
+
 
       # По умолчанию для обновления объекта нужно передать все поля сериализатора (name и birthday_year).
       # Если же мы хотим передать только несколько полей, а остальные оставить как есть,
