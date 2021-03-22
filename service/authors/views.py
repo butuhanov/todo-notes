@@ -143,3 +143,38 @@ class ArticleViewSet(viewsets.ViewSet):
        serializer = ArticleSerializer(article)
        return Response(serializer.data)
 
+# Дополнительные действия
+# Часто требуется добавить некоторые дополнительные действия в наше API, например, изменение пароля пользователя.
+# Класс ViewSet позволяет это сделать.
+# Рассмотрим пример, в котором нужно по определённому адресу выдавать не всю информацию о статье (модели Article),
+# а только её текст.
+# Viewset в этом случае может выглядеть так:
+
+from rest_framework.decorators import action
+
+class ArticleViewSet(viewsets.ViewSet):
+   renderer_classes = [JSONRenderer]
+
+   # Получаем объект Article и возвращаем пользователю только его текст.
+   # Чтобы роутер распознал дополнительное действие, нужен декоратор @action(detail=True, methods=['get']).
+   # В нём указываем методы, доступные для этого действия, и detail.
+   # Параметр detail показывает, работаем ли мы со всей выборкой или с одним объектом.
+   # Для одного объекта в адрес добавляется pk.
+   # В urls.py для регистрации в роутере никаких дополнительных действий не требуется.
+   # Роутер сам создаст адрес следующего вида: /viewsets/viewset/1/article_text_only/.
+   # в этом примере http://127.0.0.1:8000/viewsets/base/1/article_text_only/
+   # В этом адресе цифра 1 — это pk статьи Article.
+   @action(detail=True, methods=['get'])
+   def article_text_only(self, request, pk=None):
+       article = get_object_or_404(Article, pk=pk)
+       return Response({'article.text': article.text})
+
+   def list(self, request):
+       articles = Article.objects.all()
+       serializer = ArticleSerializer(articles, many=True)
+       return Response(serializer.data)
+
+   def retrieve(self, request, pk=None):
+       article = get_object_or_404(Article, pk=pk)
+       serializer = ArticleSerializer(article)
+       return Response(serializer.data)
