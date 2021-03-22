@@ -14,5 +14,5 @@ class ProjectModelViewSet(ModelViewSet):  # Мы используем насле
 
 # Это означает, что набор views связан с моделью и будет работать с её данными.
 
-queryset = Project.objects.all()  # queryset указывает, какие данные мы будем выводить в списке.
-serializer_class = ProjectSerializer  # serializer_class определяет тот Serializer, который мы будем использовать.
+    queryset = Project.objects.all()  # queryset указывает, какие данные мы будем выводить в списке.
+    serializer_class = ProjectSerializer  # serializer_class определяет тот Serializer, который мы будем использовать.
