@@ -23,6 +23,7 @@ class Book(models.Model):
 
 
 class Article(models.Model):
+   # Модель описывает статью, у которой есть название, написавший её пользователь, текст и дата создания.
    name = models.CharField(max_length=32)
    author = models.ForeignKey(Author, models.PROTECT)
    text = models.TextField()
