@@ -7,6 +7,9 @@ from rest_framework.response import Response
 from .models import Author
 from .serializers import AuthorSerializer, ArticleSerializer
 
+from rest_framework.decorators import api_view, renderer_classes
+
+
 
 class AuthorModelViewSet(ModelViewSet): # Мы используем наследование от ModelViewSet.
                                         # Это означает, что набор views связан с моделью и будет работать с её данными.
@@ -31,3 +34,15 @@ class ArticleAPIVIew(APIView):
        articles = Article.objects.all()
        serializer = ArticleSerializer(articles, many=True)
        return Response(serializer.data)
+
+# DRF позволяет создавать Views не только на классах, но и на функциях.
+# В примере ниже мы создали View с такими же опциями, как и в предыдущем, но использовали функцию.
+# Для указания доступных запросов используется декоратор @api_view, а для Renderers — декоратор renderer_classes.
+# Приминение:
+# Базовые View удобно использовать для решения нестандартных задач, которые требуют написания множества уникального кода.
+@api_view(['GET'])
+@renderer_classes([JSONRenderer])
+def article_view(request):
+   articles = Article.objects.all()
+   serializer = ArticleSerializer(articles, many=True)
+   return Response(serializer.data)
