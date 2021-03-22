@@ -13,10 +13,9 @@ class TodoSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
    # Модель Project связана с User и To do
-   project = TodoSerializer()
-   user = UserModelSerializer()
+   todo = TodoSerializer()
 
    class Meta:
        model = Project
-       fields = '__all__'  # отображать все поля модели, включая вложенные.
+       fields = 'repo_link', 'name', 'todo'
 
