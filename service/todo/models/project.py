@@ -7,7 +7,7 @@ class Project(models.Model):
    # Создать модель, выбрать подходящие типы полей и связей с другими моделями.
    uuid = models.UUIDField(primary_key=True, default=uuid4)
    name = models.CharField(max_length=64) # название проекта
-   repo_link = models.URLField() # ссылка на репозиторий
+   repo_link = models.URLField(blank=True) # ссылка на репозиторий
 
    # у одного проекта может быть несколько пользователей, поэтому используем отношение "один ко многим"
    # Одна главная сущность может быть связана с несколькими зависимыми
