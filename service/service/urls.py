@@ -37,5 +37,6 @@ urlpatterns = [
    path('api/', include(router.urls)),  # Подключаем адреса (urls), которые формирует роутер, к нашему проекту.
    path('views/api-view/', views.ArticleAPIVIew.as_view()),
    path('viewsets/', include(router.urls)),
+   path('filters/kwargs/<str:name>/', views.ArticleKwargsFilterView.as_view()),
 
 ]
