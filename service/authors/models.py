@@ -25,3 +25,9 @@ class Book(models.Model):
 class Article(models.Model):
    name = models.CharField(max_length=32)
    author = models.ForeignKey(Author, models.PROTECT)
+   text = models.TextField()
+
+   create = models.DateTimeField()
+
+   def __str__(self):
+       return self.name
