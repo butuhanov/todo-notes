@@ -66,7 +66,7 @@ from rest_framework.generics import CreateAPIView
 class ArticleCreateAPIView(CreateAPIView):
     # Предоставляет метод post. Для создания модели достаточно указать queryset и serializer_class
 
-    renderer_classes = [JSONRenderer]
+   renderer_classes = [JSONRenderer]
    queryset = Article.objects.all()
    serializer_class = ArticleSerializer
 
