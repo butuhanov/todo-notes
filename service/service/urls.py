@@ -31,6 +31,12 @@ router.register('base', views.ArticleViewSet, basename='article')
 # Потому что наш ViewSet не связан с моделью данных и какой-либо выборкой.
 # Нет признака, по которому DRF сам сможет создать название url-адреса.
 
+# Параметры запроса
+# Если мы используем параметры запроса для передачи параметров, то специальный адрес делать не нужно
+filter_router = DefaultRouter()
+filter_router.register('param', views.ArticleParamFilterViewSet)
+# также надо добавить путь в urlpatterns
+
 urlpatterns = [
    path('admin/', admin.site.urls),
    path('api-auth/', include('rest_framework.urls')),
@@ -38,5 +44,7 @@ urlpatterns = [
    path('views/api-view/', views.ArticleAPIVIew.as_view()),
    path('viewsets/', include(router.urls)),
    path('filters/kwargs/<str:name>/', views.ArticleKwargsFilterView.as_view()),
+   path('filters/', include(filter_router.urls)), # Параметры запроса
+
 
 ]
