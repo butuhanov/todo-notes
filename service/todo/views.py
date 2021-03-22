@@ -1,3 +1,18 @@
-from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
+from .models import Todo, Project
+from .serializers import TodoSerializer, ProjectSerializer
 
-# Create your views here.
+
+class TodoModelViewSet(ModelViewSet): # Мы используем наследование от ModelViewSet.
+                                        # Это означает, что набор views связан с моделью и будет работать с её данными.
+
+   queryset = Todo.objects.all() # queryset указывает, какие данные мы будем выводить в списке.
+   serializer_class = TodoSerializer # serializer_class определяет тот Serializer, который мы будем использовать.
+
+class ProjectModelViewSet(ModelViewSet):  # Мы используем наследование от ModelViewSet.
+
+
+# Это означает, что набор views связан с моделью и будет работать с её данными.
+
+queryset = Project.objects.all()  # queryset указывает, какие данные мы будем выводить в списке.
+serializer_class = ProjectSerializer  # serializer_class определяет тот Serializer, который мы будем использовать.
