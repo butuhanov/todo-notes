@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import HyperlinkedModelSerializer
 from .models import Todo, Project
-from service.users.serializers import UserModelSerializer
+from users.serializers import UserModelSerializer
 
 class TodoSerializer(serializers.ModelSerializer):
     # Модель To do связана с User, а в сериализаторе мы указали users = UserModelSerializer().
