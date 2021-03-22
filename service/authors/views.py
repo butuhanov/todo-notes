@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
 
-from rest_framework.renderers import JSONRenderer
+from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from .models import Article
 from rest_framework.response import Response
 
@@ -191,3 +191,27 @@ class ArticleModelViewSet(viewsets.ModelViewSet):
    renderer_classes = [JSONRenderer]
    serializer_class = ArticleSerializer
 
+# Custom ViewSet
+# Один из наиболее удобных видов Viewset — Viewset, собранный из нескольких примесей (mixins).
+# Примеси могут быть взяты из DRF, так и являться своими классами.
+# Рассмотрим пример создания такого Viewset.
+from rest_framework import mixins
+
+class ArticleCustomViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
+                          mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    # Основа — GenericViewSet.
+    # К нему добавляются нужные классы примеси.
+    # Таким образом, от того, какие примеси добавлены, будет зависеть доступность запросов REST API.
+    # В этом примере добавился CreateModelMixen, ListModelMixin, RetrieveModelMixin.
+    # Это означает, что нам будут доступны запросы get и post.
+    # Появятся возможности создавать новые записи, просматривать список или одну запись.
+    # Далее стандартно указывается queryset и serializer_class.
+   queryset = Article.objects.all()
+   serializer_class = ArticleSerializer
+   renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
+    # Урлы для этого Viewset генерируются также через Router.
+# Применение
+# Чаще используются ModelViewSet и Custom Viewset.
+# ModelViewSet удобен, когда нужно большинство методов для одной модели данных,
+# а Custom Viewset — при необходимости только части методов для API.
+# Класс ViewSet используется реже для нестандартных задач и нескольких типов rest-запросов.
