@@ -1,5 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
-from .models import Todo, Project
+from todo.models.todo import Todo
+from todo.models.project import Project
 from .serializers import TodoSerializer, ProjectSerializer
 
 
