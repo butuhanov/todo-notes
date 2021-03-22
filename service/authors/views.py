@@ -259,3 +259,19 @@ class ArticleKwargsFilterView(ListAPIView):
        # Адрес при этом должен содержать строковый параметр name
        name = self.kwargs['name']
        return Article.objects.filter(name__contains=name)
+
+# Параметры запроса
+# адрес можно оставить таким, какой создаст Router.
+# Сам Viewset в этом случае будет выглядеть следующим образом
+# Пример http://127.0.0.1:8000/filters/param/?name=python
+
+class ArticleParamFilterViewSet(viewsets.ModelViewSet):
+   queryset = Article.objects.all()
+   serializer_class = ArticleSerializer
+
+   def get_queryset(self):
+       name = self.request.query_params.get('name', '')
+       articles = Article.objects.all()
+       if name:
+           articles = articles.filter(name__contains=name)
+       return articles
