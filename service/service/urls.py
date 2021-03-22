@@ -26,4 +26,6 @@ urlpatterns = [
    path('admin/', admin.site.urls),
    path('api-auth/', include('rest_framework.urls')),
    path('api/', include(router.urls)),  # Подключаем адреса (urls), которые формирует роутер, к нашему проекту.
+   path('views/api-view/', views.ArticleAPIVIew.as_view()),
+
 ]
