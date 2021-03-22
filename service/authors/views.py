@@ -241,3 +241,21 @@ class ArticleQuerysetFilterViewSet(viewsets.ModelViewSet):
        # После переопределения метода get_queryset берём не все данные, а фильтруем статьи Article по части имени.
        # В нашем случае имя должно содержать слово python.
        return Article.objects.filter(name__contains='python')
+
+
+# kwargs
+# В предыдущем примере ‘python’ содержится в коде.
+# Часто мы хотим предоставить пользователю возможность вводить данные для фильтрации.
+# Это можно сделать двумя основными способами:
+# через параметр в url-адресе;
+# через параметры запроса.
+# Когда мы используем параметры в url-адресе, то данные фильтра получаем через kwargs запроса.
+# Рассмотрим это на примере:
+class ArticleKwargsFilterView(ListAPIView):
+   serializer_class = ArticleSerializer
+
+   def get_queryset(self):
+       # Из self.kwargs берётся по ключу параметр name и затем передаётся в фильтр.
+       # Адрес при этом должен содержать строковый параметр name
+       name = self.kwargs['name']
+       return Article.objects.filter(name__contains=name)
