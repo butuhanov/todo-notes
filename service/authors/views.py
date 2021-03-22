@@ -178,3 +178,16 @@ class ArticleViewSet(viewsets.ViewSet):
        article = get_object_or_404(Article, pk=pk)
        serializer = ArticleSerializer(article)
        return Response(serializer.data)
+
+# ModelViewSet
+# Мы уже немного работали с ModelViewSet.
+# Этот класс основан на GenericViewSet и позволяет быстро построить API для модели данных.
+# Это полезно в тех случаях, когда нужны почти все REST API-запросы для конкретной модели.
+class ArticleModelViewSet(viewsets.ModelViewSet):
+    # Для базового использования достаточно указать queryset и serializer_class.
+    # Для настройки можно переопределить любой метод классов ViewSet и ModelViewSet,
+    # а также добавить дополнительные действия.
+   queryset = Article.objects.all()
+   renderer_classes = [JSONRenderer]
+   serializer_class = ArticleSerializer
+
