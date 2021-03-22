@@ -300,3 +300,13 @@ class ArticleDjangoFilterViewSet(viewsets.ModelViewSet):
 
 # Если, кроме указания полей, необходимо настроить их отображение и тип, то сначала создаём фильтр в файле filters.py
 # Важно! Фильтры рекомендуется создавать в отдельном файле filters.py внутри приложения.
+
+# После того как создали фильтр, импортируем его в файл,
+# где находиться Viewset и указываем нужный фильтр внутри VIewset:
+from .filters import ArticleFilter
+
+
+class ArticleCustomDjangoFilterViewSet(viewsets.ModelViewSet):
+   queryset = Article.objects.all()
+   serializer_class = ArticleSerializer
+   filterset_class = ArticleFilter
