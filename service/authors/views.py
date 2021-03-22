@@ -63,6 +63,7 @@ def article_view(request):
 # Concrete Views
 from rest_framework.generics import CreateAPIView
 
+
 class ArticleCreateAPIView(CreateAPIView):
     # Предоставляет метод post. Для создания модели достаточно указать queryset и serializer_class
 
@@ -112,3 +113,33 @@ class ArticleUpdateAPIView(UpdateAPIView):
    renderer_classes = [JSONRenderer]
    queryset = Article.objects.all()
    serializer_class = ArticleSerializer
+
+# ViewSets
+# ViewSets (наборы представлений) позволяют объединять несколько представлений в один набор.
+# Причём можно или описать нужные методы для обработки запросов самостоятельно,
+# или использовать ModelViewSet для создания набора на основе конкретной модели.
+# Можете также собрать ViewSet из нескольких Views. Рассмотрим каждую возможность.
+
+# Класс ViewSet в DRF позволяет на его основе создавать набор данных
+# и прописывать важные методы для обработки разных типов запросов.
+
+from rest_framework import viewsets
+from rest_framework.generics import CreateAPIView, get_object_or_404
+
+class ArticleViewSet(viewsets.ViewSet):
+   renderer_classes = [JSONRenderer]
+
+   # В этом примере определены методы list и retrieve.
+   # Они соответствуют get-запросам для получения набора данных и информации об одном объекте.
+   # Это похоже на работу с APIView,
+   # но в нашем случае в одном ViewSet можно описать обработку сразу нескольких REST-запросов.
+   def list(self, request):
+       articles = Article.objects.all()
+       serializer = ArticleSerializer(articles, many=True)
+       return Response(serializer.data)
+
+   def retrieve(self, request, pk=None):
+       article = get_object_or_404(Article, pk=pk)
+       serializer = ArticleSerializer(article)
+       return Response(serializer.data)
+
