@@ -215,3 +215,29 @@ class ArticleCustomViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 # ModelViewSet удобен, когда нужно большинство методов для одной модели данных,
 # а Custom Viewset — при необходимости только части методов для API.
 # Класс ViewSet используется реже для нестандартных задач и нескольких типов rest-запросов.
+
+
+# Filtering
+# Добавление фильтрации в REST API — стандартная задача.
+# Часто требуется вывести данные только для конкретного пользователя,
+# либо отфильтровать данные по части имени или дате добавления.
+# DRF предоставляет удобные средства для создания фильтров.
+# Рассмотрим наиболее актуальные варианты.
+
+# get_queryset
+# Views и Viewsets, которые содержат свойство queryset,
+# также имеют метод get_queryset для получения выборки данных динамически.
+# Если этот метод не переопределился, по умолчанию он возвращает свойство queryset.
+# Если переопределим этот метод, сможем пользоваться методом filter у менеджера моделей objects.
+# Рассмотрим это на примере:
+class ArticleQuerysetFilterViewSet(viewsets.ModelViewSet):
+    # В примере используется ModelViewSet.
+    # Но это актуально и для других Views и Viewset, у которых есть свойство queryset.
+   serializer_class = ArticleSerializer
+   renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
+   queryset = Article.objects.all()
+
+   def get_queryset(self):
+       # После переопределения метода get_queryset берём не все данные, а фильтруем статьи Article по части имени.
+       # В нашем случае имя должно содержать слово python.
+       return Article.objects.filter(name__contains='python')
