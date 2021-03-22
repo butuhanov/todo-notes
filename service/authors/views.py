@@ -310,3 +310,26 @@ class ArticleCustomDjangoFilterViewSet(viewsets.ModelViewSet):
    queryset = Article.objects.all()
    serializer_class = ArticleSerializer
    filterset_class = ArticleFilter
+
+# LimitOffsetPagination
+# Этот вид постраничного вывода более гибкий, чем PageNumberPagination.
+# Обычно используется для API, в которых клиент может сам решать. Например, сколько данных он
+# хочет получить, и с какой точки отсчитывать это количество.
+
+from rest_framework.pagination import LimitOffsetPagination
+
+
+class ArticleLimitOffsetPagination(LimitOffsetPagination):
+    # Для начала мы создали свой класс на основе LimitOffsetPagination.
+    # default_limit — показывает сколько записей по умолчанию будет выводиться,
+    # если этот параметр не будет передан в запросе.
+   default_limit = 2
+
+
+class ArticleLimitOffsetPaginatonViewSet(viewsets.ModelViewSet):
+   queryset = Article.objects.all()
+   serializer_class = ArticleSerializer
+   # Затем конкретному Viewset указываем класс для постраничного вывода.
+   # Этот класс переопределяет настройку по умолчанию.
+   # Запрос будет выглядеть так http://127.0.0.1:8000/pagination/limitoffset/?limit=2&offset=2
+   pagination_class = ArticleLimitOffsetPagination
