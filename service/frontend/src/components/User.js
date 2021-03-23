@@ -12,6 +12,7 @@ const UserItem = ({user}) => {  // Это простой компонент бе
                                     // и далее работать только с ним.
    return (             // Функция возвращает разметку компонента.
                         // {user.username}. В неё мы помещаем данные из объекта user.
+      <tbody>
        <tr>
            <td>
                {user.username}
@@ -26,6 +27,7 @@ const UserItem = ({user}) => {  // Это простой компонент бе
                {user.email}
            </td>
        </tr>
+     </tbody>
    )
 }
 
@@ -35,6 +37,8 @@ const UserList = ({users}) => { // users — это массив данных о
                                                                      // в соответствующий компонент UserItem.
    return (
        <table>
+       <thead>
+       <tr>
            <th>
                Пользователь
            </th>
@@ -47,6 +51,8 @@ const UserList = ({users}) => { // users — это массив данных о
            <th>
                Электронная почта
            </th>
+           </tr>
+           </thead>
            {users.map((user) => <UserItem user={user} />)}
        </table>
    )
