@@ -1,7 +1,7 @@
 import React from 'react'
 import AuthorList from './components/Author.js'
 import BookList from './components/Books.js'
-import {HashRouter, Route, Link} from 'react-router-dom' // Сначала мы импортировали компоненты HashRouter и Router для их дальнейшего использования.
+import {HashRouter, Route, Link, Switch} from 'react-router-dom' // Сначала мы импортировали компоненты HashRouter и Router для их дальнейшего использования.
 
 // Далее ту часть страницы, на которой компоненты будут меняться в зависимости от адреса, помещаем в компонент HashRouter.
 // Router позволяет указать адрес с помощью path. Атрибут component служит для указания компонента, который отразится по этому адресу.
@@ -11,6 +11,18 @@ import {HashRouter, Route, Link} from 'react-router-dom' // Сначала мы 
 // Для создания ссылок используется специальный компонент Link (вместо стандартного тега <a>).
 // В Link помещается атрибут to — это адрес, на который осуществляется переход (по аналогии с href у тега <a>).
 // Компоненты Link должны находиться внутри компонента HashRouter, а не за ним.
+
+
+// Если хотим добавить возможность перехода на несуществующую страницу в нашем приложении, понадобиться компонент Switch.
+// Он позволяет указать компонент, который надо отрисовать, если не совпал ни один из указанных выше адресов.
+const NotFound404 = ({ location }) => {
+  return (
+    <div>
+        <h1>Страница по адресу '{location.pathname}' не найдена</h1>
+    </div>
+  )
+}
+
 class App extends React.Component {
 
   constructor(props) {
@@ -43,11 +55,13 @@ class App extends React.Component {
               </li>
             </ul>
           </nav>
-            <Route exact path='/' component={() => <AuthorList items={this.state.authors} />}  />
-            <Route exact path='/books' component={() => <BookList items={this.state.books} />} />
+            <Switch>
+              <Route exact path='/' component={() => <AuthorList items={this.state.authors} />}  />
+              <Route exact path='/books' component={() => <BookList items={this.state.books} />} />
+              <Route component={NotFound404} />
+            </Switch>
           </HashRouter>
         </div>
-
     )
   }
 }
