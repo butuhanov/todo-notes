@@ -1,7 +1,7 @@
 import React from 'react'
 import AuthorList from './components/Author.js'
 import BookList from './components/Books.js'
-import {HashRouter, Route, Link, Switch} from 'react-router-dom' // Сначала мы импортировали компоненты HashRouter и Router для их дальнейшего использования.
+import {HashRouter, Route, Link, Switch, Redirect} from 'react-router-dom' // Сначала мы импортировали компоненты HashRouter и Router для их дальнейшего использования.
 
 // Далее ту часть страницы, на которой компоненты будут меняться в зависимости от адреса, помещаем в компонент HashRouter.
 // Router позволяет указать адрес с помощью path. Атрибут component служит для указания компонента, который отразится по этому адресу.
@@ -55,6 +55,12 @@ class App extends React.Component {
               </li>
             </ul>
           </nav>
+            <Switch>
+                <Route exact path='/' component={() => <AuthorList items={this.state.authors} />}  />
+                <Route exact path='/books' component={() => <BookList items={this.state.books} />} />
+                <Redirect from='/authors' to='/' />
+                <Route component={NotFound404} />
+            </Switch>
             <Switch>
               <Route exact path='/' component={() => <AuthorList items={this.state.authors} />}  />
               <Route exact path='/books' component={() => <BookList items={this.state.books} />} />
