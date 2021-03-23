@@ -10,7 +10,11 @@ from .serializers import AuthorSerializer, ArticleSerializer
 
 from rest_framework.decorators import api_view, renderer_classes
 
+from rest_framework.permissions import BasePermission
 
+class StaffOnly(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_staff
 
 class AuthorModelViewSet(ModelViewSet): # Мы используем наследование от ModelViewSet.
                                         # Это означает, что набор views связан с моделью и будет работать с её данными.
