@@ -1,3 +1,4 @@
+from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
@@ -21,6 +22,11 @@ class UserModelViewSet(ModelViewSet): # Мы используем наследо
         user = get_object_or_404(User, username=pk)
         serializer = UserModelSerializer(user)
         return Response(serializer.data)
+
+    @action(detail=True, methods=['update'])
+    def update(self, request, pk=None):
+        user = get_object_or_404(User, pk=pk)
+        return Response({'user.lastname': user.lastname})
 
 
 
