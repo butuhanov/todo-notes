@@ -15,7 +15,8 @@ const BookItem = ({item}) => {
 const BookList = ({items}) => {
 
     let { id } = useParams();
-    let filtered_items = items.filter((item) => item.author.id === id)
+    // eslint-disable-next-line
+    let filtered_items = items.filter((item) => item.author.id == id)
     return (
         <table>
             <tr>
