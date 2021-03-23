@@ -24,7 +24,7 @@ class UserModelViewSet(ModelViewSet): # Мы используем наследо
         return Response(serializer.data)
 
     @action(detail=True, methods=['update'])
-    def update(self, request, pk=None):
+    def updateuser(self, request, pk=None):
         user = get_object_or_404(User, pk=pk)
         return Response({'user.lastname': user.lastname})
 
