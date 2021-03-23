@@ -42,20 +42,20 @@ class App extends React.Component {  // Создадим класс App, нас�
 
    axios.get('http://127.0.0.1:8000/api/project/')
        .then(response => {
-           const users = response.data
+           const projects = response.data.results
                this.setState(
                {
-                   'projects': users
+                   'projects': projects
                }
            )
        }).catch(error => console.log(error));
 
    axios.get('http://127.0.0.1:8000/api/todo/')
        .then(response => {
-           const users = response.data
+           const todos = response.data.results
                this.setState(
                {
-                   'todos': users
+                   'todos': todos
                }
            )
        }).catch(error => console.log(error))
@@ -86,8 +86,8 @@ render () {
           </nav>
             <Switch>
               <Route exact path='/users' component={() => <UserList users={this.state.users} />}  />
-              <Route exact path='/projects' component={() => <ProjectList users={this.state.projects} />}  />
-              <Route exact path='/todos' component={() => <TodoList users={this.state.todos} />}  />
+              <Route exact path='/projects' component={() => <ProjectList projects={this.state.projects} />}  />
+              <Route exact path='/todos' component={() => <TodoList todos={this.state.todos} />}  />
               <Route path="/users/:id">
                 <UserList users={this.state.users} />
               </Route>
