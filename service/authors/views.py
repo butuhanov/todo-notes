@@ -1,3 +1,4 @@
+from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
 
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
@@ -21,19 +22,21 @@ class AuthorModelViewSet(ModelViewSet): # Мы используем наслед
 from rest_framework.views import APIView
 
 class ArticleAPIVIew(APIView):
+    permission_classes = [AllowAny]
+
     # Рассмотрим для начала класс APIView.
     # Это базовый класс для Views в DRF.
     # Он может быть связан с другими частями DRF (например, Renderers)
     # и позволяет полностью самостоятельно написать код обработки того или иного запроса.
 
     # Свойство renderer_classes позволяет указать список Renderers.
-   renderer_classes = [JSONRenderer]
+    renderer_classes = [JSONRenderer]
 
     # Метод get отвечает за get-запрос.
     # Мы получаем все статьи, с помощью ArticleSerializer
     # преобразуем выборку в простые типы данных и возвращаем объект Response.
     # Важно! Для ответа используется объект класса Respose из DRF, а не из django.
-   def get(self, request, format=None):
+    def get(self, request, format=None):
        articles = Article.objects.all()
        serializer = ArticleSerializer(articles, many=True)
        return Response(serializer.data)
