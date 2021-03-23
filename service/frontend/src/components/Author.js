@@ -1,31 +1,16 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
-
-const AuthorItem = ({item}) => {  // Это простой компонент без состояния.
-                                    // Такие компоненты удобнее создавать как функции.
-                                    // В нашем случае применяется стрелочная функция,
-                                    // но можно использовать и обычную function.
-                                    // В параметры каждого компонента на react приходит объект props.
-                                    // Он содержит в себе все переданные в компонент данные.
-                                    // Параметр {author} означает,
-                                    // что из всех props мы ожидаем получить author — объект автора,
-                                    // и далее работать только с ним.
-   return (             // Функция возвращает разметку компонента.
-                        // {author.first_name}. В неё мы помещаем данные из объекта author.
-
-       <tr>
-           <td>
-               {item.id}
-           </td>
-           <td>
-               {item.name}
-           </td>
-           <td>
-               {item.birthday_year}
-           </td>
-       </tr>
-   )
+const AuthorItem = ({item}) => {
+    return (
+        <tr>
+            <td><Link to={`author/${item.id}`}>{item.id}</Link></td>
+            <td>{item.name}</td>
+            <td>{item.birthday_year}</td>
+        </tr>
+    )
 }
+
 
 
 const AuthorList = ({items}) => { // аuthors — это массив данных об авторах, который мы передадим в компонент.
