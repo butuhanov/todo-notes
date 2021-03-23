@@ -10,6 +10,7 @@ class TodoModelViewSet(ModelViewSet): # Мы используем наследо
    queryset = Todo.objects.all() # queryset указывает, какие данные мы будем выводить в списке.
    serializer_class = TodoSerializer # serializer_class определяет тот Serializer, который мы будем использовать.
 
+from .filters import ProjectFilter
 class ProjectModelViewSet(ModelViewSet):  # Мы используем наследование от ModelViewSet.
 
 
@@ -17,3 +18,4 @@ class ProjectModelViewSet(ModelViewSet):  # Мы используем насле
 
     queryset = Project.objects.all()  # queryset указывает, какие данные мы будем выводить в списке.
     serializer_class = ProjectSerializer  # serializer_class определяет тот Serializer, который мы будем использовать.
+    filter_class = ProjectFilter
