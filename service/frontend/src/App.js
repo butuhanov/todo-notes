@@ -1,6 +1,6 @@
 import React from 'react'
 import AuthorList from './components/Author.js'
-import BookList from './components/Book.js'
+import BookList from './components/Books.js'
 
 class App extends React.Component {
 
