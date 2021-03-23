@@ -1,71 +1,33 @@
-import React from 'react'; // Импортируем React из библиотеки react
-import logo from './logo.svg'; //  svg-файл
-import './App.css'; // и файл со стилями.
-import AuthorList from './components/Author.js'; // импортируем компонент AuthorList.
-import axios from 'axios';
+import React from 'react'
+import AuthorList from './components/Author.js'
+import BookList from './components/Book.js'
 
+class App extends React.Component {
 
-class App extends React.Component {  // Создадим класс App, наследуем его от React.Component.
-                                     // Компонент App — это класс, имеющий состояние.
-   constructor(props) {    // В конструктор класса передаётся объект props
-       super(props)        // super(props) — вызывает родительский конструктор
-       this.state = {      // this.state — это объект состояния нашего компонента.
-           'authors': []   // Он будет хранить массив авторов, которые мы будем получать с back-end.
+  constructor(props) {
+    super(props)
+    const author1 = {id: 1, name: 'Грин', birthday_year: 1880}
+    const author2 = {id: 2, name: 'Пушкин', birthday_year: 1799}
+    const authors = [author1, author2]
+    const book1 = {id: 1, name: 'Алые паруса', author: author1}
+    const book2 = {id: 2, name: 'Золотая цепь', author: author1}
+    const book3 = {id: 3, name: 'Пиковая дама', author: author2}
+    const book4 = {id: 4, name: 'Руслан и Людмила', author: author2}
+    const books = [book1, book2, book3, book4]
+    this.state = {
+      'authors': authors,
+      'books': books
+    }
+  }
 
-       }
-   }
-
-/*
-   componentDidMount() {  // метод componentDidMount будет вызываться при монтировании компонента на страницу.
-                          // В нём создан массив из объектов авторов для проверки работы приложения.
-                          // Далее эти данные мы будем получать с back-end.
-
-     const authors = [
-           {
-               'first_name': 'Фёдор',
-               'last_name': 'Достоевский',
-               'birthday_year': 1821
-           },
-           {
-               'first_name': 'Александр',
-               'last_name': 'Грин',
-               'birthday_year': 1880
-           },
-       ]
-       this.setState(  // с помощью метода this.setState меняем состояние компонента App и передаём данные об авторах
-           {
-               'authors': authors
-           }
-       )
-   }
-   */
-   componentDidMount() {   // Мы получаем объект response и его данные response.data.
-                           // Это и есть список авторов из API на back-end.
-                           // Далее меняем состояние объекта App и передаём полученные данные вместо заглушек.
-   axios.get('http://127.0.0.1:8000/api/authors/')
-       .then(response => {
-           const authors = response.data
-               this.setState(
-               {
-                   'authors': authors
-               }
-           )
-       }).catch(error => console.log(error))
+  render() {
+    return (
+      <div className="App">
+        <AuthorList items={this.state.authors} />
+        <BookList items={this.state.books} />
+      </div>
+    )
+  }
 }
 
-
-render () {
-           // Отрисовываем компонент App,
-           // который включает в себя компонент AuthorList,
-           // и передаём в AuthorList данные
-           // об авторах {this.state.authors}.
-       return (
-           <div>
-               <AuthorList authors={this.state.authors} />
-           </div>
-       )
-   }
-
-}
-
-export default App;   // Экспортируем наш компонент для использования в других модулях.
+export default App;
