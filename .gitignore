@@ -133,3 +133,7 @@ dmypy.json
 
 # node-modules
 node_modules/
+
+# DB
+db.todo.sqlite3
+db.todo.sqlite3-journal
