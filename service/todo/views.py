@@ -12,11 +12,15 @@ from rest_framework.pagination import LimitOffsetPagination
 class ProjectLimitOffsetPagination(LimitOffsetPagination):
    default_limit = 10
 
+class TodoLimitOffsetPagination(LimitOffsetPagination):
+   default_limit = 20
+
 class TodoModelViewSet(ModelViewSet): # Мы используем наследование от ModelViewSet.
                                         # Это означает, что набор views связан с моделью и будет работать с её данными.
 
    queryset = Todo.objects.all() # queryset указывает, какие данные мы будем выводить в списке.
    serializer_class = TodoSerializer # serializer_class определяет тот Serializer, который мы будем использовать.
+   pagination_class = TodoLimitOffsetPagination
 
 from .filters import ProjectFilter
 class ProjectModelViewSet(ModelViewSet):  # Мы используем наследование от ModelViewSet.
