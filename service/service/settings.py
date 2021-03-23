@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 # other
     'rest_framework',
     'corsheaders',
+    'django_filters',
 # my
     'users',
     'todo',
