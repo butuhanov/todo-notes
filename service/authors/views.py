@@ -340,3 +340,4 @@ class ArticleLimitOffsetPaginatonViewSet(viewsets.ModelViewSet):
    # Этот класс переопределяет настройку по умолчанию.
    # Запрос будет выглядеть так http://127.0.0.1:8000/pagination/limitoffset/?limit=2&offset=2
    pagination_class = ArticleLimitOffsetPagination
+

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # other
     'rest_framework',
     'corsheaders',
+    'rest_framework.authtoken',
     # my
     'authors',
 
