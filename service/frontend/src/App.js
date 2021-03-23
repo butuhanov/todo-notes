@@ -1,6 +1,12 @@
 import React from 'react'
 import AuthorList from './components/Author.js'
 import BookList from './components/Books.js'
+import {HashRouter, Route} from 'react-router-dom' // Сначала мы импортировали компоненты HashRouter и Router для их дальнейшего использования.
+
+// Далее ту часть страницы, на которой компоненты будут меняться в зависимости от адреса, помещаем в компонент HashRouter.
+// Router позволяет указать адрес с помощью path. Атрибут component служит для указания компонента, который отразится по этому адресу.
+// Если требуется передать данные в component (как в нашем случае), передаётся не сам компонент, а функция замыкания. Она вернёт компонент с нужными данными.
+// Теперь при переходе по адресу / появится таблица авторов. При переходе на адрес /#/books увидим таблицу с книгами. Наш роутинг работает.
 
 class App extends React.Component {
 
@@ -23,8 +29,10 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <AuthorList items={this.state.authors} />
-        <BookList items={this.state.books} />
+        <HashRouter>
+          <Route exact path='/' component={() => <AuthorList items={this.state.authors} />}  />
+          <Route exact path='/books' component={() => <BookList items={this.state.books} />} />
+        </HashRouter>
       </div>
     )
   }
