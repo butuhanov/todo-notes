@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const AuthorItem = ({author}) => {  // Это простой компонент без состояния.
+const AuthorItem = ({item}) => {  // Это простой компонент без состояния.
                                     // Такие компоненты удобнее создавать как функции.
                                     // В нашем случае применяется стрелочная функция,
                                     // но можно использовать и обычную function.
@@ -15,20 +15,20 @@ const AuthorItem = ({author}) => {  // Это простой компонент 
 
        <tr>
            <td>
-               {author.first_name}
+               {item.id}
            </td>
            <td>
-               {author.last_name}
+               {item.name}
            </td>
            <td>
-               {author.birthday_year}
+               {item.birthday_year}
            </td>
        </tr>
    )
 }
 
 
-const AuthorList = ({authors}) => { // аuthors — это массив данных об авторах, который мы передадим в компонент.
+const AuthorList = ({items}) => { // аuthors — это массив данных об авторах, который мы передадим в компонент.
 
  // Используем функцию map,
  // чтобы превратить каждого автора из массива
@@ -36,15 +36,16 @@ const AuthorList = ({authors}) => { // аuthors — это массив данн
    return (
        <table>
            <th>
-               First name
+               ID
            </th>
            <th>
-               Last Name
+               NAME
            </th>
            <th>
-               Birthday year
+               BIRTHDAY_YEAR
            </th>
-           {authors.map((author) => <AuthorItem author={author} />)}
+           {items.map((item) => <AuthorItem item={item} />)}
+
        </table>
    )
 }
