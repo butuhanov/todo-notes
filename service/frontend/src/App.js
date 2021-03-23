@@ -1,13 +1,16 @@
 import React from 'react'
 import AuthorList from './components/Author.js'
 import BookList from './components/Books.js'
-import {HashRouter, Route} from 'react-router-dom' // Сначала мы импортировали компоненты HashRouter и Router для их дальнейшего использования.
+import {HashRouter, Route, Link} from 'react-router-dom' // Сначала мы импортировали компоненты HashRouter и Router для их дальнейшего использования.
 
 // Далее ту часть страницы, на которой компоненты будут меняться в зависимости от адреса, помещаем в компонент HashRouter.
 // Router позволяет указать адрес с помощью path. Атрибут component служит для указания компонента, который отразится по этому адресу.
 // Если требуется передать данные в component (как в нашем случае), передаётся не сам компонент, а функция замыкания. Она вернёт компонент с нужными данными.
 // Теперь при переходе по адресу / появится таблица авторов. При переходе на адрес /#/books увидим таблицу с книгами. Наш роутинг работает.
 
+// Для создания ссылок используется специальный компонент Link (вместо стандартного тега <a>).
+// В Link помещается атрибут to — это адрес, на который осуществляется переход (по аналогии с href у тега <a>).
+// Компоненты Link должны находиться внутри компонента HashRouter, а не за ним.
 class App extends React.Component {
 
   constructor(props) {
@@ -28,14 +31,26 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <HashRouter>
-          <Route exact path='/' component={() => <AuthorList items={this.state.authors} />}  />
-          <Route exact path='/books' component={() => <BookList items={this.state.books} />} />
-        </HashRouter>
-      </div>
+        <div className="App">
+          <HashRouter>
+          <nav>
+            <ul>
+              <li>
+                <Link to='/'>Authors</Link>
+              </li>
+              <li>
+                <Link to='/books'>Books</Link>
+              </li>
+            </ul>
+          </nav>
+            <Route exact path='/' component={() => <AuthorList items={this.state.authors} />}  />
+            <Route exact path='/books' component={() => <BookList items={this.state.books} />} />
+          </HashRouter>
+        </div>
+
     )
   }
 }
+
 
 export default App;
