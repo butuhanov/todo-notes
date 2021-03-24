@@ -2,6 +2,7 @@ import React from 'react'
 import AuthorList from './components/Author.js'
 import BookList from './components/Book.js'
 import AuthorBookList from './components/AuthorBook.js'
+import LoginForm from './components/Auth.js'
 import {BrowserRouter, Route, Link, Switch, Redirect} from 'react-router-dom'
 import axios from 'axios'
 
