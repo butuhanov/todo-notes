@@ -31,11 +31,11 @@ class App extends React.Component {
   set_token(token) {
     const cookies = new Cookies()
     cookies.set('token', token)
-    this.setState({'token': token})
+    this.setState({'token': token}, ()=>this.load_data())
   }
 
   is_authenticated() {
-  // Expected '!==' and instead saw '!='
+  //  Expected '!==' and instead saw '!='  eqeqeq
   // To ignore, add
   // eslint-disable-next-line
     return this.state.token != ''
@@ -48,7 +48,7 @@ class App extends React.Component {
   get_token_from_storage() {
     const cookies = new Cookies()
     const token = cookies.get('token')
-    this.setState({'token': token})
+    this.setState({'token': token}, ()=>this.load_data())
   }
 
   get_token(username, password) {
@@ -58,21 +58,37 @@ class App extends React.Component {
     }).catch(error => alert('Неверный логин или пароль'))
   }
 
+  get_headers() {
+    let headers = {
+      'Content-Type': 'application/json'
+    }
+  if (this.is_authenticated())
+    {
+        headers['Authorization'] = 'Token ' + this.state.token
+    }
+    return headers
+  }
+
+
   load_data() {
-    axios.get('http://127.0.0.1:8000/api/authors/')
+
+    const headers = this.get_headers()
+    axios.get('http://127.0.0.1:8000/api/authors/', {headers})
         .then(response => {
             this.setState({authors: response.data})
         }).catch(error => console.log(error))
 
-    axios.get('http://127.0.0.1:8000/api/books/')
+    axios.get('http://127.0.0.1:8000/api/books/', {headers})
         .then(response => {
             this.setState({books: response.data})
-        }).catch(error => console.log(error))
+        }).catch(error => {
+          console.log(error)
+          this.setState({books: []})
+        })
   }
 
   componentDidMount() {
     this.get_token_from_storage()
-    this.load_data()
   }
 
   render() {
