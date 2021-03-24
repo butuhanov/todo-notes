@@ -35,7 +35,8 @@ router.register('base', views.ArticleViewSet, basename='article')
 
 # Параметры запроса
 # Если мы используем параметры запроса для передачи параметров, то специальный адрес делать не нужно
-filter_router = DefaultRouter()
+filter_router = DefaultRouter() # DefaultRouter Создаёт дополнительную точку для входа в API
+                                # SimpleRouter позволяет добавлять пути к точкам созданным DefaultRouter
 filter_router.register('param', views.ArticleParamFilterViewSet)
 # также надо добавить путь в urlpatterns
 
