@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.routers import DefaultRouter
 from authors.views import AuthorModelViewSet, ArticleAPIVIew, BookModelViewSet
 from authors import views
@@ -46,5 +47,5 @@ urlpatterns = [
    path('viewsets/', include(router.urls)),
    path('filters/kwargs/<str:name>/', views.ArticleKwargsFilterView.as_view()),
    path('filters/', include(filter_router.urls)), # Параметры запроса
-   # path('api-token-auth/', views.obtain_auth_token),
+   path('api-token-auth/', obtain_auth_token),
 ]
