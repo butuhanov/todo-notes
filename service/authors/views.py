@@ -2,11 +2,12 @@ from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
 
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
-from .models import Article
+
 from rest_framework.response import Response
 
-from .models import Author
-from .serializers import AuthorSerializer, ArticleSerializer
+from .models import Author, Book, Article, Biography
+
+from .serializers import AuthorSerializer, ArticleSerializer, BookSerializer
 
 from rest_framework.decorators import api_view, renderer_classes
 
@@ -19,11 +20,25 @@ class StaffOnly(BasePermission):
 class AuthorModelViewSet(ModelViewSet): # Мы используем наследование от ModelViewSet.
                                         # Это означает, что набор views связан с моделью и будет работать с её данными.
 
-   queryset = Author.objects.all() # queryset указывает, какие данные мы будем выводить в списке.
-   serializer_class = AuthorSerializer # serializer_class определяет тот Serializer, который мы будем использовать.
+    queryset = Author.objects.all() # queryset указывает, какие данные мы будем выводить в списке.
+    serializer_class = AuthorSerializer # serializer_class определяет тот Serializer, который мы будем использовать.
+
 
 
 from rest_framework.views import APIView
+
+from rest_framework import viewsets
+from rest_framework.generics import CreateAPIView, get_object_or_404
+
+
+class BookModelViewSet(viewsets.ModelViewSet):
+        # Для базового использования достаточно указать queryset и serializer_class.
+        # Для настройки можно переопределить любой метод классов ViewSet и ModelViewSet,
+        # а также добавить дополнительные действия.
+        queryset = Book.objects.all()
+        renderer_classes = [JSONRenderer]
+        serializer_class = BookSerializer
+
 
 class ArticleAPIVIew(APIView):
     permission_classes = [AllowAny]
@@ -130,8 +145,6 @@ class ArticleUpdateAPIView(UpdateAPIView):
 # Класс ViewSet в DRF позволяет на его основе создавать набор данных
 # и прописывать важные методы для обработки разных типов запросов.
 
-from rest_framework import viewsets
-from rest_framework.generics import CreateAPIView, get_object_or_404
 
 class ArticleViewSet(viewsets.ViewSet):
    renderer_classes = [JSONRenderer]

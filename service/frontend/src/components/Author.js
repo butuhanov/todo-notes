@@ -4,8 +4,8 @@ import {Link} from 'react-router-dom'
 const AuthorItem = ({item}) => {
     return (
         <tr>
-            <td><Link to={`author/${item.id}`}>{item.id}</Link></td>
-            <td>{item.name}</td>
+            <td><Link to={`author/${item.uuid}`}>{item.uuid}</Link></td>
+            <td>{item.first_name} {item.last_name}</td>
             <td>{item.birthday_year}</td>
         </tr>
     )

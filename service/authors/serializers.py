@@ -49,7 +49,9 @@ class BookSerializer(serializers.ModelSerializer):
     # В этом случае указан специальный тип поля serializers.StringRelatedField(many=True).
     # Он говорит, что автор будет представлен методом __str__ в модели Author,
     # а ключ many=True позволяет выводить несколько авторов.
-    authors = serializers.StringRelatedField(many=True)
+
+    # authors = serializers.StringRelatedField(many=True)
+    authors = AuthorSerializer()
 
     class Meta:
         model = Book

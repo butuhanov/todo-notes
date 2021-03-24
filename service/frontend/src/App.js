@@ -1,9 +1,9 @@
 import React from 'react'
 import AuthorList from './components/Author.js'
-import BookList from './components/Books.js'
+import BookList from './components/Book.js'
 import AuthorBookList from './components/AuthorBook.js'
 import {BrowserRouter, Route, Link, Switch, Redirect} from 'react-router-dom'
-
+import axios from 'axios'
 
 const NotFound404 = ({ location }) => {
   return (
@@ -31,6 +31,23 @@ class App extends React.Component {
       'books': books
     }
   }
+
+ load_data() {
+    axios.get('http://127.0.0.1:8000/api/authors/')
+        .then(response => {
+            this.setState({authors: response.data.results})
+        }).catch(error => console.log(error))
+
+    axios.get('http://127.0.0.1:8000/api/books/')
+        .then(response => {
+            this.setState({books: response.data.results})
+        }).catch(error => console.log(error))
+  }
+
+  componentDidMount() {
+    this.load_data()
+  }
+
 
   render() {
     return (

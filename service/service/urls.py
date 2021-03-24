@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from authors.views import AuthorModelViewSet, ArticleAPIVIew
+from authors.views import AuthorModelViewSet, ArticleAPIVIew, BookModelViewSet
 from authors import views
 
 # Создаём объект класса DefaultRouter и связываем AuthorModelViewSet с адресом authors.
@@ -24,6 +24,7 @@ from authors import views
 
 router = DefaultRouter()
 router.register('authors', AuthorModelViewSet)
+router.register('books', views.BookModelViewSet, basename='books')
 
 router.register('base', views.ArticleViewSet, basename='article')
 # указываем точку входа, сам ViewSet и его имя. Затем подключаем urls роутера в urlpatterns.

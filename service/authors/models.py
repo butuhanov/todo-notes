@@ -21,7 +21,6 @@ class Book(models.Model):
    name = models.CharField(max_length=32)
    authors = models.ManyToManyField(Author)
 
-
 class Article(models.Model):
    # Модель описывает статью, у которой есть название, написавший её пользователь, текст и дата создания.
    name = models.CharField(max_length=32)
