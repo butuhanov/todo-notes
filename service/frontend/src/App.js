@@ -61,11 +61,15 @@ class App extends React.Component {
               <li>
                 <Link to='/books'>Books</Link>
               </li>
+              <li>
+              <Link to='/login'>Login</Link>
+              </li>
             </ul>
           </nav>
             <Switch>
               <Route exact path='/' component={() => <AuthorList items={this.state.authors} />}  />
               <Route exact path='/books' component={() => <BookList items={this.state.books} />} />
+              <Route exact path='/login' component={() => <LoginForm />} />
               <Route path="/author/:id">
                 <AuthorBookList items={this.state.books} />
               </Route>
