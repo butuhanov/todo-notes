@@ -6,13 +6,6 @@ import LoginForm from './components/Auth.js'
 import {BrowserRouter, Route, Link, Switch, Redirect} from 'react-router-dom'
 import axios from 'axios'
 
-get_token(username, password) {
-    axios.post('http://127.0.0.1:8000/api-token-auth/', {username: username, password: password})
-    .then(response => {
-        console.log(response.data)
-    }).catch(error => alert('Неверный логин или пароль'))
-  }
-
 
 const NotFound404 = ({ location }) => {
   return (
@@ -40,6 +33,14 @@ class App extends React.Component {
       'books': books
     }
   }
+
+get_token(username, password) {
+    axios.post('http://127.0.0.1:8000/api-token-auth/', {username: username, password: password})
+    .then(response => {
+        console.log(response.data)
+    }).catch(error => alert('Неверный логин или пароль'))
+  }
+
 
  load_data() {
     axios.get('http://127.0.0.1:8000/api/authors/')
