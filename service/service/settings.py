@@ -139,6 +139,8 @@ REST_FRAMEWORK = {
         'djangorestframework_camel_case.render.CamelCaseJSONRenderer',
         'djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer',
         # Any other renders
+        'rest_framework.renderers.JSONRenderer',  # В зависимости от заголовка headers будет выбираться один из них
+        'rest_framework.renderers.BrowsableAPIRenderer',  # и это будет возвращаться на одном и том же url
     ),
     'DEFAULT_PARSER_CLASSES': (
         # If you use MultiPartFormParser or FormParser, we also have a camel case version
