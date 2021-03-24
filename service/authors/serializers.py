@@ -50,8 +50,12 @@ class BookSerializer(serializers.ModelSerializer):
     # Он говорит, что автор будет представлен методом __str__ в модели Author,
     # а ключ many=True позволяет выводить несколько авторов.
 
-    # authors = serializers.StringRelatedField(many=True)
-    authors = AuthorSerializer()
+    authors = serializers.StringRelatedField(many=True) # данные будут браться из __str__
+    # Другие варианты
+    # serializers.PrimaryKeyRelatedField - представляет объект по его первичному ключу, например uuid
+    # serializers.HyperlinkedRelatedField - гиперссылка на объект (на его страницу)
+    # serializers.SlugRelatedField - позволяет указать конкретные поля для отображения (удобно для связанных моделей)
+    # Это наиболее часто используемые. Другие можно посмотреть здесь https://www.django-rest-framework.org/api-guide/relations/
 
     class Meta:
         model = Book
