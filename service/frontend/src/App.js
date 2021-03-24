@@ -5,6 +5,7 @@ import ProjectList from './components/Project.js';
 import TodoList from './components/Todo.js';
 import {BrowserRouter, Route, Link, Switch, Redirect} from 'react-router-dom'
 import axios from 'axios';
+import LoginForm from './components/Auth.js'
 
 
 const NotFound404 = ({ location }) => {
@@ -81,13 +82,16 @@ render () {
               <li>
                 <Link to='/todos'>Список задач</Link>
               </li>
-
+              <li>
+              <Link to='/login'>Login</Link>
+              </li>
             </ul>
           </nav>
             <Switch>
               <Route exact path='/users' component={() => <UserList users={this.state.users} />}  />
               <Route exact path='/projects' component={() => <ProjectList projects={this.state.projects} />}  />
               <Route exact path='/todos' component={() => <TodoList todos={this.state.todos} />}  />
+              <Route exact path='/login' component={() => <LoginForm />} />
               <Route path="/users/:id">
                 <UserList users={this.state.users} />
               </Route>
