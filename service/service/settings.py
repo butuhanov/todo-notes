@@ -134,6 +134,10 @@ CORS_ALLOWED_ORIGINS = [
 
 # DRF
 REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES' : [
+        'rest_framework.renderers.JSONRenderer',         # В зависимости от заголовка headers будет выбираться один из них
+        'rest_framework.renderers.BrowsableAPIRenderer',  # и это будет возвращаться на одном и том же url
+    ],
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5,
