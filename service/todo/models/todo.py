@@ -14,15 +14,16 @@ class Todo(models.Model):
    # Третий параметр primary_key = True указывает, что внешний ключ (через который идет связь с главной моделью)
    # в то же время будет выступать и в качестве первичного ключа.
    # И соответственно создавать отдельное поле для первичного ключа не надо.
-   project = models.OneToOneField(Project, on_delete = models.PROTECT, primary_key = True)
+
+   project = models.ForeignKey(Project, on_delete = models.CASCADE) # у проекта может быть много заметок to do
 
    #   текст заметки
    # TextField(): хранит строку неопределенной длины
-   name = models.TextField()
+   text = models.TextField()
 
    # дата создания
    created = models.DateTimeField(auto_now=False, auto_now_add=True)
    # дата обновления
    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
    # пользователь, создавший заметку
-   user = models.OneToOneField(User, on_delete=models.PROTECT)
+   creator = models.ForeignKey(User, on_delete=models.PROTECT) # пользователь может создать много заметок
