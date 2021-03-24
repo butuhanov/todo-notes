@@ -28,6 +28,14 @@ class App extends React.Component {  // Создадим класс App, нас�
        }
    }
 
+    get_token(username, password) {
+        axios.post('http://127.0.0.1:8000/api-token-auth/', {username: username, password: password})
+        .then(response => {
+            console.log(response.data)
+        }).catch(error => alert('Неверный логин или пароль'))
+      }
+
+
    componentDidMount() {   // Мы получаем объект response и его данные response.data.
                            // Это и есть список пользователей из API на back-end.
                            // Далее меняем состояние объекта App и передаём полученные данные.
@@ -91,7 +99,7 @@ render () {
               <Route exact path='/users' component={() => <UserList users={this.state.users} />}  />
               <Route exact path='/projects' component={() => <ProjectList projects={this.state.projects} />}  />
               <Route exact path='/todos' component={() => <TodoList todos={this.state.todos} />}  />
-              <Route exact path='/login' component={() => <LoginForm />} />
+              <Route exact path='/login' component={() => <LoginForm get_token={(username, password) => this.get_token(username, password)} />} />
               <Route path="/users/:id">
                 <UserList users={this.state.users} />
               </Route>
