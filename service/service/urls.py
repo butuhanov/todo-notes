@@ -24,11 +24,20 @@ from todo.views import TodoModelViewSet, ProjectModelViewSet
 # Создаём объект класса DefaultRouter и связываем AuthorModelViewSet с адресом authors.
 from users import views
 
+from users.views import UserCustomViewSet
+
 router = DefaultRouter()
 # router.register('users', UserModelViewSet)
 router.register('todo', TodoModelViewSet)
 router.register('project', ProjectModelViewSet)
-router.register('user', UserModelViewSet)
+router.register('user', UserModelViewSet, basename='user')
+
+# При регистрации ViewSet указываем точку входа, сам ViewSet и его имя.
+# Затем подключаем urls роутера в urlpatterns.
+
+router.register('userview', UserCustomViewSet)
+
+
 
 # router.register('user', views.UserModelViewSet, basename='user')
 
@@ -37,6 +46,5 @@ urlpatterns = [
    path('admin/', admin.site.urls),
    path('api-auth/', include('rest_framework.urls')),
    path('api/', include(router.urls)),  # Подключаем адреса (urls), которые формирует роутер, к нашему проекту.
-   # path('viewsets/', include(router.urls)),
    path('api-token-auth/', obtain_auth_token),
 ]

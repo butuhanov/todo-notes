@@ -39,3 +39,24 @@ class UserModelViewSet(ModelViewSet): # Мы используем наследо
    # # filterset_fields = ['username']
    # filter_class = UserFilter
 
+
+# Чаще используются ModelViewSet и Custom Viewset.
+# ModelViewSet удобен, когда нужно большинство методов для одной модели данных,
+# а Custom Viewset — при необходимости только части методов для API.
+# Класс ViewSet используется реже для нестандартных задач и нескольких типов rest-запросов.
+
+# Пример Custom ViewSet
+from rest_framework import mixins, viewsets
+from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
+
+class UserCustomViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
+                          mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+   queryset = User.objects.all()
+   serializer_class = UserModelSerializer
+   renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
+
+   @action(detail=True, methods=['get'])
+   def user_lastname_only(self, request, pk=None):
+       # http://127.0.0.1:8000/api/userview/uuid/user_lastname_only/
+       user = get_object_or_404(User, pk=pk)
+       return Response({'user.lastname': user.lastname})
