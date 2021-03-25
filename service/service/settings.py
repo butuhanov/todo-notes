@@ -178,12 +178,17 @@ LOGGING = {
             'class': 'logging.FileHandler',
             'formatter': 'file',
             'filename': 'debug.log'
-        }
+        },
     },
     'loggers': {
         '': {
             'level': 'DEBUG',
             'handlers': ['console', 'file']
+        },
+        'service_log': {
+            'level': 'INFO',
+            'handlers': ['console', 'file']
         }
+
     }
 }
