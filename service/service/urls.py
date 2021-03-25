@@ -43,7 +43,7 @@ router.register('base', UserViewSet, basename='user')
 
 
 
-router.register('custom', UserCustomViewSet, basename='user')
+# router.register('custom', UserCustomViewSet, basename='user')
 
 
 urlpatterns = [

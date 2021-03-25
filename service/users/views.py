@@ -7,6 +7,10 @@ from rest_framework.viewsets import ModelViewSet
 from .models import User
 from .serializers import UserModelSerializer
 
+import logging
+
+service_log = logging.getLogger('service_log')
+
 from .filters import UserFilter
 
 class UserModelViewSet(ModelViewSet): # Мы используем наследование от ModelViewSet.
@@ -77,6 +81,8 @@ class UserViewSet(viewsets.ViewSet):
     def list(self,request): # весь набор данных
         users = User.objects.all()
         serializer = UserModelSerializer(users, many=True)
+        # service_log.info(f'{dir(request)}')
+        service_log.info(f'data - {request.data}, POST - {request.POST}')
         return(serializer.data)
 
     def retreive(self,request): # доступ к request позволяет настроить логирование
