@@ -28,8 +28,9 @@ router = DefaultRouter()
 # router.register('users', UserModelViewSet)
 router.register('todo', TodoModelViewSet)
 router.register('project', ProjectModelViewSet)
+router.register('user', UserModelViewSet)
 
-router.register('user', views.UserModelViewSet, basename='user')
+# router.register('user', views.UserModelViewSet, basename='user')
 
 
 urlpatterns = [

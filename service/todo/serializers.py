@@ -6,16 +6,15 @@ from users.serializers import UserModelSerializer
 class TodoSerializer(serializers.ModelSerializer):
     # Модель To do связана с User, а в сериализаторе мы указали user = UserModelSerializer().
    # В этом случае за отображение будет отвечать UserModelSerializer(), и на выходе появится вложенный словарь.
-   user = UserModelSerializer()
+   creator = UserModelSerializer()
    class Meta:
        model = Todo
-       fields = 'project', 'name', 'created', 'updated', 'user'
+       fields = '__all__'
 
 class ProjectSerializer(serializers.ModelSerializer):
    # Модель Project связана с User и To do
-   todo = TodoSerializer()
-
+   # to do = TodoSerializer()
    class Meta:
        model = Project
-       fields = 'repo_link', 'name', 'todo'
+       fields = '__all__'
 
