@@ -57,33 +57,35 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 class UserCustomViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
                           mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     # С таким набором миксинов будут доступны GET и POST, также можно добавить destroy, update
-   queryset = User.objects.all()
-   serializer_class = UserModelSerializer
-   renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
-   filterset_fields = ['email', 'lastname']
+
+    queryset = User.objects.all()
+    serializer_class = UserModelSerializer
+    renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
+    filterset_fields = ['email', 'lastname']
+
+    # пример extra action
+    @action(detail=True, methods=['get'])
+    def user_lastname_only(self, request, pk=None):
+        # http://127.0.0.1:8000/api/userview/uuid/user_lastname_only/
+        user = get_object_or_404(User, pk=pk)
+        return Response({'user.lastname': user.lastname})
 
 
 # Пример ViewSet
 class UserViewSet(viewsets.ViewSet):
-    renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
+    renderer_classes = [JSONRenderer]
 
-    # пример extra action
-    @action(detail=True, methods=['get']) # detail - мы будем работать с одним объектом
-    def user_lastname_only(self, request, pk=None):
-        # http://127.0.0.1:8000/api/base/uuid/user_lastname_only/
-        user = get_object_or_404(User, pk=pk)
-        return Response({'user.lastname': user.lastname})
 
     def get_queryset(self):
-        return User.objects.filter(email__contains='123')  # пример использования фильтра
-
+        return User.objects.filter(email__contains='user2')  # пример использования фильтра
 
     def list(self,request): # весь набор данных
-        users = User.objects.all()
-        serializer = UserModelSerializer(users, many=True)
+        # users = User.objects.all()
+        serializer = UserModelSerializer(self.get_queryset(), many=True, context={'request': request})
         # service_log.info(f'{dir(request)}')
         service_log.info(f'data - {request.data}, POST - {request.POST}')
-        return(serializer.data)
+        return Response(serializer.data)
+
 
     def retreive(self,request): # доступ к request позволяет настроить логирование
         user = get_object_or_404(User, pk=pk)
@@ -91,13 +93,24 @@ class UserViewSet(viewsets.ViewSet):
         return(serializer.data)
 
 # Если нужна своя логика, можно использовать APIView, но в команде могут использоваться и другие способы
-class UserAPIView(APIView):
-    renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
-
-    def get(self, request, format=None):
-        users = User.objects.all()
-        serializer = UserModelSerializer(users, many=True)
-        return Response(serializer.data)
+# class UserAPIView(APIView):
+#     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
+#
+#     def get_queryset(self):
+#         return User.objects.filter(email__contains='123')  # пример использования фильтра
+#
+#     def get(self, request, format=None):
+#         # users = User.objects.all()
+#         users = User.objects.filter(email__contains='123')
+#         serializer = UserModelSerializer(users, many=True, context={'request': request})
+#
+#         # serializer = UserModelSerializer(users, many=True)
+#         service_log.info(f'data - {request.data}, POST - {request.POST}')
+#         return(serializer.data)
+#     #
+#     # @classmethod
+#     # def get_extra_actions(cls):
+#     #     return []
 
 # Пример получения параметров из URL
 class UserKwargsFilterView(ListAPIView):
@@ -106,3 +119,4 @@ class UserKwargsFilterView(ListAPIView):
     def get_queryset(self):
         email = self.kwargs['email']
         return User.objects.filter(email__contains=email)
+

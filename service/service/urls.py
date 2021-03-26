@@ -24,7 +24,7 @@ from todo.views import TodoModelViewSet, ProjectModelViewSet
 # Создаём объект класса DefaultRouter и связываем AuthorModelViewSet с адресом authors.
 from users import views
 
-from users.views import UserCustomViewSet, UserViewSet
+from users.views import UserCustomViewSet, UserViewSet, UserKwargsFilterView
 
 
 router = DefaultRouter()
@@ -34,21 +34,25 @@ router.register('project', ProjectModelViewSet)
 router.register('user', UserModelViewSet)
 
 # При использовании ViewSet надо обязательно указывать basename
-router.register('base', UserViewSet, basename='user')
+# router.register('base', UserAPIView, basename='user')
 
 # При регистрации ViewSet указываем точку входа, сам ViewSet и его имя.
 # Затем подключаем urls роутера в urlpatterns.
 
-# router.register('custom', UserCustomViewSet)
+# router.register('custom', UserCustomViewSet) # User Custom List
 
 
 
 # router.register('custom', UserCustomViewSet, basename='user')
 
+router.register('custom', UserCustomViewSet) # User Custom List
+router.register('base', UserViewSet, basename='base')
+# router.register('filter', UserKwargsFilterView, basename='filter') # User Custom List
 
 urlpatterns = [
    path('admin/', admin.site.urls),
    path('api-auth/', include('rest_framework.urls')),
    path('api/', include(router.urls)),  # Подключаем адреса (urls), которые формирует роутер, к нашему проекту.
+   path('filters/kwargs/<str:name>/', UserKwargsFilterView.as_view()), # http://127.0.0.1:8000/filters/kwargs/test/
    path('api-token-auth/', obtain_auth_token),
 ]
