@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+
 from rest_framework.viewsets import ModelViewSet
 from todo.models.todo import Todo
 from todo.models.project import Project
@@ -7,6 +8,8 @@ from .serializers import TodoSerializer, ProjectSerializer
 
 
 from rest_framework.pagination import LimitOffsetPagination
+
+
 
 
 class ProjectLimitOffsetPagination(LimitOffsetPagination):
@@ -32,4 +35,5 @@ class ProjectModelViewSet(ModelViewSet):  # Мы используем насле
     serializer_class = ProjectSerializer  # serializer_class определяет тот Serializer, который мы будем использовать.
     filter_class = ProjectFilter
     pagination_class = ProjectLimitOffsetPagination
+
 

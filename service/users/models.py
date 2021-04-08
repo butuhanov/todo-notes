@@ -1,8 +1,6 @@
 from django.db import models
 from uuid import uuid4
 
-from todo.models.project import Project
-
 
 class User(models.Model):
    uuid = models.UUIDField(primary_key=True, default=uuid4)
@@ -14,7 +12,7 @@ class User(models.Model):
    # у одного проекта может быть несколько пользователей, поэтому используем отношение "один ко многим"
    # Одна главная сущность может быть связана с несколькими зависимыми
    # Проект в данном случае будет главной моделью, а модель User - зависимой
-   project = models.ForeignKey(Project, on_delete=models.PROTECT, null=True)
+   # project = models.ForeignKey(Project, on_delete=models.PROTECT, null=True)
 
 
    # Конструктор типа models.ForeignKey настраивает связь с главной сущностью.
