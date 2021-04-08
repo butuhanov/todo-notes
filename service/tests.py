@@ -7,3 +7,11 @@ from django.contrib.auth.models import User
 from todo.views import TodoModelViewSet
 from todo.models import Todo, Project
 
+
+class TestTodoModelViewSet(TestCase):
+    def test_get_list(self):
+        factory = APIRequestFactory()
+        request = factory.get('/api/todo/')
+        view = TodoModelViewSet.as_view({'get': 'list'})
+        response = view(request)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
